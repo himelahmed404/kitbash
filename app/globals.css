@@ -1,0 +1,104 @@
+@import "tailwindcss";
+
+@theme {
+  --color-sun: #FFD600;
+  --color-bubblegum: #FF5FA2;
+  --color-mint: #5EEAD4;
+  --color-ink: #111111;
+  --color-paper: #FFFFFF;
+  --color-graphite: #3A3A3A;
+  --color-smoke: #6B6B6B;
+  --color-cream: #FFF9DB;
+  --color-fog: #F2F2EE;
+  --color-danger: #E5162E;
+
+  --font-sans: var(--font-space-grotesk), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains-mono), ui-monospace, monospace;
+
+  --text-display: clamp(2.75rem, 1.6rem + 5.2vw, 6.5rem);
+  --text-display--line-height: 0.95;
+  --text-display--letter-spacing: -0.03em;
+  --text-h1: clamp(2.25rem, 1.6rem + 2.8vw, 4rem);
+  --text-h1--line-height: 1;
+  --text-h2: clamp(1.75rem, 1.4rem + 1.6vw, 2.75rem);
+  --text-h2--line-height: 1.05;
+  --text-lead: clamp(1.0625rem, 1rem + .4vw, 1.25rem);
+  --text-lead--line-height: 1.5;
+
+  --shadow-brutal-sm: 3px 3px 0 0 var(--color-ink);
+  --shadow-brutal: 6px 6px 0 0 var(--color-ink);
+  --shadow-brutal-lg: 10px 10px 0 0 var(--color-ink);
+
+  --ease-snap: cubic-bezier(.2,.8,.2,1);
+  --ease-pop: cubic-bezier(.34,1.56,.64,1);
+  --ease-out-expo: cubic-bezier(.16,1,.3,1);
+
+  --animate-marquee: marquee 28s linear infinite;
+  @keyframes marquee { to { transform: translateX(-50%); } }
+}
+
+@layer base {
+  html {
+    color: var(--color-ink);
+    background: var(--color-paper);
+    scroll-behavior: smooth;
+  }
+  body {
+    font-family: var(--font-sans);
+    background-color: var(--color-paper);
+    color: var(--color-ink);
+    margin: 0;
+    padding: 0;
+  }
+  ::selection {
+    background: var(--color-sun);
+    color: var(--color-ink);
+  }
+  :focus-visible {
+    outline: 3px solid var(--color-ink);
+    outline-offset: 3px;
+  }
+  .on-ink :focus-visible {
+    outline-color: var(--color-sun);
+  }
+}
+
+@utility border-3 {
+  border-width: 3px;
+}
+
+@utility brutal-lift {
+  transition: transform 180ms var(--ease-snap), box-shadow 180ms var(--ease-snap);
+  &:hover {
+    transform: translate(-2px, -2px);
+  }
+  &:active {
+    transform: translate(3px, 3px);
+    box-shadow: none !important;
+    transition-duration: 90ms;
+  }
+}
+
+@utility eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+@utility text-outline {
+  color: transparent;
+  -webkit-text-stroke: 2px var(--color-ink);
+}
+
+@utility text-outline-white {
+  color: transparent;
+  -webkit-text-stroke: 2px #FFFFFF;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
