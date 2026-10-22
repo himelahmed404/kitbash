@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { seedKits } from '@/data/seed-kits';
+import { useKits } from '@/lib/kits';
 import { filterKits, DEFAULT_FILTERS, type PriceBucket, type SortOption } from '@/lib/filters';
 import type { Category } from '@/types/kit';
 import { SearchBar } from './SearchBar';
@@ -12,6 +12,7 @@ import { KitGrid } from './KitGrid';
 export function ItemsBrowser() {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const { allKits } = useKits();
 
   // Read filters from URL
   const q = searchParams.get('q') ?? '';
@@ -57,7 +58,7 @@ export function ItemsBrowser() {
   }, [searchInput, updateURL]);
 
 
-  const filtered = filterKits(seedKits, { q, category, price, sort });
+  const filtered = filterKits(allKits, { q, category, price, sort });
 
   const handleReset = () => {
     setSearchInput('');

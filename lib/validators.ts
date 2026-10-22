@@ -24,6 +24,18 @@ export const contactSchema = z.object({
 
 export type ContactFormData = z.infer<typeof contactSchema>;
 
+export const KIT_FORMATS = [
+  'Figma',
+  'Sketch',
+  'React',
+  'Vue',
+  'Tailwind',
+  'SVG',
+  'PNG',
+  'OTF/TTF',
+  'HTML',
+] as const;
+
 export const kitFormSchema = z.object({
   title: z
     .string()
@@ -46,20 +58,21 @@ export const kitFormSchema = z.object({
   price: z
     .number({ message: 'Price must be a valid number' })
     .min(0, { message: 'Price cannot be negative' })
-    .max(999, { message: 'Price cannot exceed $999' }),
+    .max(499, { message: 'Price cannot exceed $499' }),
   formats: z
     .array(z.string())
     .min(1, { message: 'Select at least one format' }),
   fileSizeMB: z
     .number({ message: 'File size must be a number' })
-    .positive({ message: 'File size must be greater than 0' }),
+    .positive({ message: 'File size must be greater than 0' })
+    .max(5000, { message: 'File size cannot exceed 5000 MB' }),
   license: z.enum(['Personal', 'Commercial', 'Extended'], {
     message: 'Please select a license',
   }),
   version: z
     .string()
     .trim()
-    .regex(/^v?\d+\.\d+(\.\d+)?$/, { message: 'Version must be semver (e.g. 1.0 or 2.1.0)' }),
+    .regex(/^v?\d+\.\d+(\.\d+)?$/, { message: 'Version must be semver (e.g. 1.0.0 or 2.1)' }),
   imageUrl: z
     .string()
     .trim()
