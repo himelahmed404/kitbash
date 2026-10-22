@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 import Link from 'next/link';
-import { ArrowRight, Sparkles, Box, Layers, Code, Palette } from 'lucide-react';
+import { ArrowRight, Box } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { Tag } from '@/components/ui/Tag';
 import { Chip } from '@/components/ui/Chip';

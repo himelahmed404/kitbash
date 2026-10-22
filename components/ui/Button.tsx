@@ -1,16 +1,18 @@
 'use client';
 
 import * as React from 'react';
+import { Slot } from '@radix-ui/react-slot';
 import { cn } from '@/lib/utils';
 
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: 'primary' | 'dark' | 'outline' | 'ghost' | 'danger';
   size?: 'sm' | 'md' | 'lg';
   loading?: boolean;
+  asChild?: boolean;
 }
 
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant = 'primary', size = 'md', loading = false, disabled, children, ...props }, ref) => {
+  ({ className, variant = 'primary', size = 'md', loading = false, disabled, asChild = false, children, ...props }, ref) => {
     const baseStyles =
       'inline-flex items-center justify-center font-bold tracking-tight select-none cursor-pointer border-3 border-ink transition-all brutal-lift focus-visible:outline-3 focus-visible:outline-ink focus-visible:outline-offset-3 disabled:pointer-events-none disabled:opacity-50 disabled:bg-fog disabled:text-smoke disabled:border-dashed disabled:shadow-none';
 
@@ -33,11 +35,13 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       lg: 'h-14 px-7 py-3.5 text-lg gap-3',
     };
 
+    const Comp = asChild ? Slot : 'button';
+
     return (
-      <button
+      <Comp
         ref={ref}
         disabled={disabled || loading}
-        aria-busy={loading}
+        aria-busy={loading || undefined}
         className={cn(baseStyles, variantStyles[variant], sizeStyles[size], className)}
         {...props}
       >
@@ -50,7 +54,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         ) : (
           children
         )}
-      </button>
+      </Comp>
     );
   }
 );

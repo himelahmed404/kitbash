@@ -3,7 +3,7 @@
 import * as React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Menu, X, PlusCircle, LayoutDashboard, LogOut, User, ChevronDown } from 'lucide-react';
+import { Menu, X, PlusCircle, LayoutDashboard, LogOut, ChevronDown } from 'lucide-react';
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 import { Logo } from './Logo';
 import { Button } from '@/components/ui/Button';
@@ -26,9 +26,11 @@ export function Navbar() {
   }, []);
 
   // Close mobile menu on route change
-  React.useEffect(() => {
+  const [prevPathname, setPrevPathname] = React.useState(pathname);
+  if (prevPathname !== pathname) {
+    setPrevPathname(pathname);
     setMobileMenuOpen(false);
-  }, [pathname]);
+  }
 
   const navLinks = [
     { label: 'Home', href: '/' },
