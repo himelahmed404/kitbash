@@ -74,19 +74,19 @@ export default function ContactPage() {
           <div className="lg:col-span-5 space-y-6">
             {/* Direct Support Card */}
             <Reveal y={24} delay={0.16}>
-              <Card className="bg-paper">
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="w-10 h-10 bg-sun border-3 border-ink shadow-brutal-sm flex items-center justify-center">
+              <Card className="bg-paper p-6 md:p-7">
+                <div className="flex items-center gap-3.5 mb-5">
+                  <div className="w-11 h-11 bg-sun border-3 border-ink shadow-brutal-sm flex items-center justify-center shrink-0">
                     <Headphones className="w-5 h-5 text-ink stroke-[2.5]" />
                   </div>
                   <div>
-                    <span className="eyebrow text-graphite">DIRECT DISPATCH</span>
-                    <h3 className="text-lg font-bold text-ink">Support Desk</h3>
+                    <span className="eyebrow text-graphite block mb-0.5">DIRECT DISPATCH</span>
+                    <h3 className="text-xl font-bold text-ink">Support Desk</h3>
                   </div>
                 </div>
 
-                <div className="space-y-3.5 font-sans text-sm">
-                  <div className="flex items-center gap-3 p-3 bg-fog border-2 border-ink">
+                <div className="space-y-3 font-sans text-sm">
+                  <div className="flex items-center gap-3 px-3.5 py-2.5 bg-fog border-2 border-ink">
                     <Mail className="w-4 h-4 text-ink shrink-0" />
                     <a
                       href="mailto:support@kitbash.dev"
@@ -96,14 +96,14 @@ export default function ContactPage() {
                     </a>
                   </div>
 
-                  <div className="flex items-center gap-3 p-3 bg-fog border-2 border-ink">
+                  <div className="flex items-center gap-3 px-3.5 py-2.5 bg-fog border-2 border-ink">
                     <Clock className="w-4 h-4 text-ink shrink-0" />
                     <span className="font-mono text-xs text-graphite">
                       Response time: <strong className="text-ink">&lt; 4 hours</strong> (Mon–Fri)
                     </span>
                   </div>
 
-                  <div className="flex items-center gap-3 p-3 bg-fog border-2 border-ink">
+                  <div className="flex items-center gap-3 px-3.5 py-2.5 bg-fog border-2 border-ink">
                     <MapPin className="w-4 h-4 text-ink shrink-0" />
                     <span className="font-mono text-xs text-graphite">
                       Maker District, San Francisco, CA
@@ -115,18 +115,18 @@ export default function ContactPage() {
 
             {/* Social Channels Card */}
             <Reveal y={24} delay={0.24}>
-              <Card className="bg-paper">
-                <div className="flex items-center gap-3 mb-3">
-                  <div className="w-10 h-10 bg-mint border-3 border-ink shadow-brutal-sm flex items-center justify-center">
+              <Card className="bg-paper p-6 md:p-7">
+                <div className="flex items-center gap-3.5 mb-4">
+                  <div className="w-11 h-11 bg-mint border-3 border-ink shadow-brutal-sm flex items-center justify-center shrink-0">
                     <MessageSquare className="w-5 h-5 text-ink stroke-[2.5]" />
                   </div>
                   <div>
-                    <span className="eyebrow text-graphite">COMMUNITY</span>
-                    <h3 className="text-lg font-bold text-ink">Maker Channels</h3>
+                    <span className="eyebrow text-graphite block mb-0.5">COMMUNITY</span>
+                    <h3 className="text-xl font-bold text-ink">Maker Channels</h3>
                   </div>
                 </div>
 
-                <p className="text-graphite text-xs mb-4">
+                <p className="text-graphite text-sm mb-5 leading-relaxed">
                   Join our Discord server or follow our public changelog on GitHub and X.
                 </p>
 
@@ -166,7 +166,7 @@ export default function ContactPage() {
                       target="_blank"
                       rel="noreferrer"
                       aria-label={social.name}
-                      className="w-11 h-11 flex items-center justify-center border-3 border-ink text-ink bg-paper shadow-brutal-sm hover:bg-sun hover:translate-x-0.5 hover:translate-y-0.5 transition-all cursor-pointer"
+                      className="w-11 h-11 flex items-center justify-center border-3 border-ink text-ink bg-paper shadow-brutal-sm hover:bg-sun hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all cursor-pointer"
                     >
                       {social.icon}
                     </a>
@@ -177,44 +177,44 @@ export default function ContactPage() {
 
             {/* Quick FAQ / Guidance Card */}
             <Reveal y={24} delay={0.32}>
-              <Card className="bg-paper">
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="w-10 h-10 bg-bubblegum border-3 border-ink shadow-brutal-sm flex items-center justify-center">
+              <Card className="bg-paper p-6 md:p-7">
+                <div className="flex items-center gap-3.5 mb-5">
+                  <div className="w-11 h-11 bg-bubblegum border-3 border-ink shadow-brutal-sm flex items-center justify-center shrink-0">
                     <HelpCircle className="w-5 h-5 text-ink stroke-[2.5]" />
                   </div>
                   <div>
-                    <span className="eyebrow text-graphite">RAPID ANSWERS</span>
-                    <h3 className="text-lg font-bold text-ink">Frequently Asked</h3>
+                    <span className="eyebrow text-graphite block mb-0.5">RAPID ANSWERS</span>
+                    <h3 className="text-xl font-bold text-ink">Frequently Asked</h3>
                   </div>
                 </div>
 
-                <div className="space-y-4 text-xs font-sans">
-                  <div className="border-b-2 border-ink/10 pb-3">
-                    <p className="font-bold text-ink mb-1 flex items-center gap-1.5">
-                      <FileQuestion className="w-3.5 h-3.5 text-graphite" />
+                <div className="space-y-4 font-sans">
+                  <div className="border-b-2 border-ink/15 pb-4">
+                    <p className="font-bold text-sm text-ink mb-1.5 flex items-center gap-2">
+                      <FileQuestion className="w-4 h-4 text-ink shrink-0" />
                       Can I request a custom kit?
                     </p>
-                    <p className="text-graphite leading-relaxed">
+                    <p className="text-graphite text-xs sm:text-sm leading-relaxed pl-6">
                       Yes! Send us your framework requirements, Figma specifications, or design tokens, and we&apos;ll assess it for our upcoming releases.
                     </p>
                   </div>
 
-                  <div className="border-b-2 border-ink/10 pb-3">
-                    <p className="font-bold text-ink mb-1 flex items-center gap-1.5">
-                      <FileQuestion className="w-3.5 h-3.5 text-graphite" />
+                  <div className="border-b-2 border-ink/15 pb-4">
+                    <p className="font-bold text-sm text-ink mb-1.5 flex items-center gap-2">
+                      <FileQuestion className="w-4 h-4 text-ink shrink-0" />
                       What if a kit doesn&apos;t fit my stack?
                     </p>
-                    <p className="text-graphite leading-relaxed">
+                    <p className="text-graphite text-xs sm:text-sm leading-relaxed pl-6">
                       We offer 14-day hassle-free refunds if any kit files are corrupt, uncompilable, or materially deviate from live previews.
                     </p>
                   </div>
 
                   <div>
-                    <p className="font-bold text-ink mb-1 flex items-center gap-1.5">
-                      <FileQuestion className="w-3.5 h-3.5 text-graphite" />
+                    <p className="font-bold text-sm text-ink mb-1.5 flex items-center gap-2">
+                      <FileQuestion className="w-4 h-4 text-ink shrink-0" />
                       How do creator payouts work?
                     </p>
-                    <p className="text-graphite leading-relaxed">
+                    <p className="text-graphite text-xs sm:text-sm leading-relaxed pl-6">
                       Creators receive direct monthly payouts with an industry-low 15% platform fee.
                     </p>
                   </div>

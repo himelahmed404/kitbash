@@ -163,66 +163,75 @@ export default function AboutPage() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {/* Value 1: Made by makers */}
             <Reveal y={24} delay={0.05} className="h-full">
-              <Card className="flex flex-col h-full bg-paper">
-                <div className="h-4 bg-sun -mt-6 -mx-6 mb-6 border-b-3 border-ink" />
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="w-12 h-12 bg-sun border-3 border-ink shadow-brutal-sm flex items-center justify-center">
-                    <Hammer className="w-6 h-6 text-ink stroke-[2.5]" />
+              <Card className="flex flex-col h-full bg-paper overflow-hidden">
+                {/* Colored Accent Top Strip */}
+                <div className="h-3.5 bg-sun border-b-3 border-ink w-full" />
+                <div className="p-6 sm:p-7 flex flex-col flex-1">
+                  <div className="flex items-center gap-3.5 mb-4">
+                    <div className="w-12 h-12 bg-sun border-3 border-ink shadow-brutal-sm flex items-center justify-center shrink-0">
+                      <Hammer className="w-6 h-6 text-ink stroke-[2.5]" />
+                    </div>
+                    <div>
+                      <Tag tone="sun">VALUE 01</Tag>
+                      <h3 className="text-xl font-black text-ink mt-1">Made by makers</h3>
+                    </div>
                   </div>
-                  <div>
-                    <Tag tone="sun">VALUE 01</Tag>
-                    <h3 className="text-xl font-black text-ink mt-1">Made by makers</h3>
+                  <p className="text-graphite text-sm sm:text-base leading-relaxed mb-6 flex-1">
+                    Every kit in our catalog is created and maintained by working designers and engineers who dogfood their own tools in production. Real problems, real solutions.
+                  </p>
+                  <div className="font-mono text-xs font-bold text-ink pt-3.5 border-t-2 border-ink/20 mt-auto">
+                    {'//'} CREATED FOR REPOSITORIES, NOT PORTFOLIOS
                   </div>
-                </div>
-                <p className="text-graphite text-sm leading-relaxed mb-6 flex-1">
-                  Every kit in our catalog is created and maintained by working designers and engineers who dogfood their own tools in production. Real problems, real solutions.
-                </p>
-                <div className="font-mono text-xs font-bold text-ink pt-3 border-t-2 border-ink/15">
-                  {'//'} CREATED FOR REPOSITORIES, NOT PORTFOLIOS
                 </div>
               </Card>
             </Reveal>
 
             {/* Value 2: Fair licenses */}
             <Reveal y={24} delay={0.15} className="h-full">
-              <Card className="flex flex-col h-full bg-paper">
-                <div className="h-4 bg-mint -mt-6 -mx-6 mb-6 border-b-3 border-ink" />
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="w-12 h-12 bg-mint border-3 border-ink shadow-brutal-sm flex items-center justify-center">
-                    <ShieldCheck className="w-6 h-6 text-ink stroke-[2.5]" />
+              <Card className="flex flex-col h-full bg-paper overflow-hidden">
+                {/* Colored Accent Top Strip */}
+                <div className="h-3.5 bg-mint border-b-3 border-ink w-full" />
+                <div className="p-6 sm:p-7 flex flex-col flex-1">
+                  <div className="flex items-center gap-3.5 mb-4">
+                    <div className="w-12 h-12 bg-mint border-3 border-ink shadow-brutal-sm flex items-center justify-center shrink-0">
+                      <ShieldCheck className="w-6 h-6 text-ink stroke-[2.5]" />
+                    </div>
+                    <div>
+                      <Tag tone="mint">VALUE 02</Tag>
+                      <h3 className="text-xl font-black text-ink mt-1">Fair licenses</h3>
+                    </div>
                   </div>
-                  <div>
-                    <Tag tone="mint">VALUE 02</Tag>
-                    <h3 className="text-xl font-black text-ink mt-1">Fair licenses</h3>
+                  <p className="text-graphite text-sm sm:text-base leading-relaxed mb-6 flex-1">
+                    One-time purchase, unlimited projects, zero seat taxes. Commercial licenses that let you build client work and SaaS products without legal headaches or recurring fees.
+                  </p>
+                  <div className="font-mono text-xs font-bold text-ink pt-3.5 border-t-2 border-ink/20 mt-auto">
+                    {'//'} PERPETUAL RIGHTS · ZERO SUBSCRIPTIONS
                   </div>
-                </div>
-                <p className="text-graphite text-sm leading-relaxed mb-6 flex-1">
-                  One-time purchase, unlimited projects, zero seat taxes. Commercial licenses that let you build client work and SaaS products without legal headaches or recurring fees.
-                </p>
-                <div className="font-mono text-xs font-bold text-ink pt-3 border-t-2 border-ink/15">
-                  {'//'} PERPETUAL RIGHTS · ZERO SUBSCRIPTIONS
                 </div>
               </Card>
             </Reveal>
 
             {/* Value 3: Ship this weekend */}
             <Reveal y={24} delay={0.25} className="h-full">
-              <Card className="flex flex-col h-full bg-paper">
-                <div className="h-4 bg-bubblegum -mt-6 -mx-6 mb-6 border-b-3 border-ink" />
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="w-12 h-12 bg-bubblegum border-3 border-ink shadow-brutal-sm flex items-center justify-center">
-                    <Zap className="w-6 h-6 text-ink stroke-[2.5]" />
+              <Card className="flex flex-col h-full bg-paper overflow-hidden">
+                {/* Colored Accent Top Strip */}
+                <div className="h-3.5 bg-bubblegum border-b-3 border-ink w-full" />
+                <div className="p-6 sm:p-7 flex flex-col flex-1">
+                  <div className="flex items-center gap-3.5 mb-4">
+                    <div className="w-12 h-12 bg-bubblegum border-3 border-ink shadow-brutal-sm flex items-center justify-center shrink-0">
+                      <Zap className="w-6 h-6 text-ink stroke-[2.5]" />
+                    </div>
+                    <div>
+                      <Tag tone="bubblegum">VALUE 03</Tag>
+                      <h3 className="text-xl font-black text-ink mt-1">Ship this weekend</h3>
+                    </div>
                   </div>
-                  <div>
-                    <Tag tone="bubblegum">VALUE 03</Tag>
-                    <h3 className="text-xl font-black text-ink mt-1">Ship this weekend</h3>
+                  <p className="text-graphite text-sm sm:text-base leading-relaxed mb-6 flex-1">
+                    Zero bloat, zero 400MB dependencies. Every kit includes ready-to-copy code and pristine Figma frames organized for immediate production execution.
+                  </p>
+                  <div className="font-mono text-xs font-bold text-ink pt-3.5 border-t-2 border-ink/20 mt-auto">
+                    {'//'} COPY, PASTE, COMPILE, SHIP
                   </div>
-                </div>
-                <p className="text-graphite text-sm leading-relaxed mb-6 flex-1">
-                  Zero bloat, zero 400MB dependencies. Every kit includes ready-to-copy code and pristine Figma frames organized for immediate production execution.
-                </p>
-                <div className="font-mono text-xs font-bold text-ink pt-3 border-t-2 border-ink/15">
-                  {'//'} COPY, PASTE, COMPILE, SHIP
                 </div>
               </Card>
             </Reveal>
