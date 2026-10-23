@@ -1,5 +1,4 @@
 @import "tailwindcss";
-@import "lenis/dist/lenis.css";
 
 @theme {
   --color-sun: #FFD600;
@@ -42,11 +41,7 @@
   html {
     color: var(--color-ink);
     background: var(--color-paper);
-  }
-  html.lenis,
-  html.lenis body {
-    height: auto;
-    scroll-behavior: auto !important;
+    scroll-behavior: smooth;
   }
   body {
     font-family: var(--font-sans);

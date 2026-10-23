@@ -8,6 +8,7 @@ import { Tag } from '@/components/ui/Tag';
 import { SplitHeading } from '@/components/motion/SplitHeading';
 import { MagneticButton } from '@/components/motion/MagneticButton';
 import { Marquee } from '@/components/motion/Marquee';
+import { HeroKitShowcase } from './HeroKitShowcase';
 
 export function HeroSection() {
   return (
@@ -83,8 +84,10 @@ export function HeroSection() {
             </div>
           </div>
 
-          {/* Right 5 Columns: Dedicated 3D space for Act 0 floating shapes */}
-          <div className="md:col-span-5 h-[260px] sm:h-[320px] md:h-[420px] lg:h-[480px] pointer-events-none relative flex items-center justify-center" />
+          {/* Right 5 Columns: Interactive Neo-Brutalist Showcase Card */}
+          <div className="md:col-span-5 flex items-center justify-center py-2 sm:py-4">
+            <HeroKitShowcase />
+          </div>
         </div>
       </div>
 
