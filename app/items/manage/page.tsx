@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Container } from '@/components/layout/Container';
 import { ManageKitsView } from '@/components/kits/ManageKitsView';
+import { RequireAuth } from '@/components/auth/RequireAuth';
 
 export const metadata: Metadata = {
   title: 'Manage Kits — Seller Studio',
@@ -26,7 +27,9 @@ export default function ManageKitsPage() {
 
       {/* Main Management Section */}
       <Container className="py-8 md:py-12">
-        <ManageKitsView />
+        <RequireAuth>
+          <ManageKitsView />
+        </RequireAuth>
       </Container>
     </>
   );

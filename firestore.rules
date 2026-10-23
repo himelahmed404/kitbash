@@ -1,0 +1,30 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Kits marketplace collection
+    match /kits/{kitId} {
+      // Anyone can read kits (public marketplace catalog)
+      allow read: if true;
+
+      // Authenticated makers can publish kits where ownerId matches their UID
+      allow create: if request.auth != null
+                    && request.resource.data.ownerId == request.auth.uid
+                    && request.resource.data.title is string
+                    && request.resource.data.title.size() >= 3
+                    && request.resource.data.category in ['ui-kit', 'icons', 'fonts', 'templates'];
+
+      // Only the kit owner can update or delete their kit
+      allow update: if request.auth != null
+                    && resource.data.ownerId == request.auth.uid;
+
+      allow delete: if request.auth != null
+                    && resource.data.ownerId == request.auth.uid;
+    }
+
+    // Default deny all other collections
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

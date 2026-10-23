@@ -11,6 +11,7 @@ import {
 } from 'lucide-react';
 import { toast } from 'sonner';
 import { useKits, DEMO_USER } from '@/lib/kits';
+import { useAuth } from '@/context/AuthContext';
 import type { Kit } from '@/types/kit';
 import { CATEGORY_LABELS } from '@/types/kit';
 import { formatPrice, hashToBrandTone } from '@/lib/utils';
@@ -21,7 +22,8 @@ import { ConfirmDialog } from '@/components/ui/ConfirmDialog';
 import { KitCover } from '@/components/kits/KitCover';
 
 export function ManageKitsView() {
-  const { allKits, myKits, deleteKit, isLoaded } = useKits();
+  const { user } = useAuth();
+  const { allKits, myKits, deleteKit, isLoaded } = useKits(user?.uid);
   const [activeTab, setActiveTab] = React.useState<'my' | 'all'>('my');
   const [confirmKit, setConfirmKit] = React.useState<Kit | null>(null);
   const [collapsedIds, setCollapsedIds] = React.useState<Set<string>>(new Set());
@@ -36,8 +38,8 @@ export function ManageKitsView() {
     setCollapsedIds((prev) => new Set(prev).add(kitToDelete.id));
 
     // Wait for the collapse animation (300ms) before deleting from storage
-    setTimeout(() => {
-      const success = deleteKit(kitToDelete.id);
+    setTimeout(async () => {
+      const success = await deleteKit(kitToDelete.id);
       if (success) {
         toast.success(`"${kitToDelete.title}" deleted`, {
           description: 'The kit has been removed from your seller catalog.',
@@ -156,7 +158,7 @@ export function ManageKitsView() {
               </thead>
               <tbody>
                 {displayedKits.map((kit, index) => {
-                  const isOwner = kit.ownerId === DEMO_USER.id;
+                  const isOwner = user ? kit.ownerId === user.uid : kit.ownerId === DEMO_USER.id;
                   const isCollapsing = collapsedIds.has(kit.id);
                   const tone = hashToBrandTone(kit.id);
 
@@ -285,7 +287,7 @@ export function ManageKitsView() {
           {/* Mobile Card Stack (visible on screens < 768px) */}
           <div className="md:hidden space-y-4">
             {displayedKits.map((kit) => {
-              const isOwner = kit.ownerId === DEMO_USER.id;
+              const isOwner = user ? kit.ownerId === user.uid : kit.ownerId === DEMO_USER.id;
               const isCollapsing = collapsedIds.has(kit.id);
               const tone = hashToBrandTone(kit.id);
 

@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Container } from '@/components/layout/Container';
 import { SellerStudioForm } from '@/components/kits/SellerStudioForm';
+import { RequireAuth } from '@/components/auth/RequireAuth';
 
 export const metadata: Metadata = {
   title: 'Add a Kit — Seller Studio',
@@ -27,7 +28,9 @@ export default function AddItemPage() {
 
       {/* Main Form Section */}
       <Container className="py-8 md:py-14">
-        <SellerStudioForm />
+        <RequireAuth>
+          <SellerStudioForm />
+        </RequireAuth>
       </Container>
     </>
   );

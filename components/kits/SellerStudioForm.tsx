@@ -18,6 +18,7 @@ import {
   KIT_FORMATS,
 } from '@/lib/validators';
 import { addKit, DEMO_USER } from '@/lib/kits';
+import { useAuth } from '@/context/AuthContext';
 import type { Kit, Category, License } from '@/types/kit';
 import { CATEGORIES, LICENSES } from '@/types/kit';
 import { Button } from '@/components/ui/Button';
@@ -51,6 +52,7 @@ const DEFAULT_FORM_VALUES: KitFormData = {
 
 export function SellerStudioForm() {
   const router = useRouter();
+  const { user } = useAuth();
   const [isSubmitting, setIsSubmitting] = React.useState(false);
   const [showBurst, setShowBurst] = React.useState(false);
 
@@ -111,12 +113,12 @@ export function SellerStudioForm() {
       imageUrl: watchedValues.imageUrl?.trim() || undefined,
       rating: 5.0,
       tags: currentFormats.map((f) => f.toLowerCase()),
-      ownerId: DEMO_USER.id,
-      ownerName: DEMO_USER.name,
+      ownerId: user?.uid || DEMO_USER.id,
+      ownerName: user?.displayName || user?.email?.split('@')[0] || DEMO_USER.name,
       createdAt: new Date().toISOString(),
       official: false,
     };
-  }, [watchedValues, currentFormats]);
+  }, [watchedValues, currentFormats, user]);
 
   const onSubmit = async (data: KitFormData) => {
     try {
@@ -125,7 +127,10 @@ export function SellerStudioForm() {
       // Brief simulated processing delay
       await new Promise((resolve) => setTimeout(resolve, 450));
 
-      const newKit = addKit(data);
+      const newKit = await addKit(data, {
+        ownerId: user?.uid || DEMO_USER.id,
+        ownerName: user?.displayName || user?.email?.split('@')[0] || DEMO_USER.name,
+      });
       setShowBurst(true);
 
       toast.success('Kit published 🎉', {

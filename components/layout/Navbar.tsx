@@ -2,20 +2,22 @@
 
 import * as React from 'react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import { Menu, X, PlusCircle, LayoutDashboard, LogOut, ChevronDown } from 'lucide-react';
+import { usePathname, useRouter } from 'next/navigation';
+import { Menu, X, PlusCircle, LayoutDashboard, LogOut, ChevronDown, UserCircle } from 'lucide-react';
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
+import { toast } from 'sonner';
 import { Logo } from './Logo';
 import { Button } from '@/components/ui/Button';
 import { cn } from '@/lib/utils';
+import { useAuth } from '@/context/AuthContext';
 
 export function Navbar() {
   const pathname = usePathname();
+  const router = useRouter();
   const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
   const [isScrolled, setIsScrolled] = React.useState(false);
 
-  // Demo user state for Milestones 1–5 (No real auth required yet)
-  const [mockUser, setMockUser] = React.useState<{ name: string; email: string } | null>(null);
+  const { user, signOutUser, loading } = useAuth();
 
   React.useEffect(() => {
     const handleScroll = () => {
@@ -32,12 +34,27 @@ export function Navbar() {
     setMobileMenuOpen(false);
   }
 
+  const handleSignOut = async () => {
+    try {
+      await signOutUser();
+      toast.success('Signed out successfully', {
+        description: 'See you next time, maker.',
+      });
+      router.push('/');
+    } catch {
+      toast.error('Failed to sign out. Please try again.');
+    }
+  };
+
   const navLinks = [
     { label: 'Home', href: '/' },
     { label: 'Kits', href: '/items' },
     { label: 'About', href: '/about' },
     { label: 'Contact', href: '/contact' },
   ];
+
+  const displayName = user?.displayName || user?.email?.split('@')[0] || 'Maker';
+  const initial = displayName.charAt(0).toUpperCase();
 
   return (
     <header className="sticky top-3 z-50 px-4 sm:px-6 lg:px-8 max-w-[1280px] mx-auto w-full transition-all duration-200">
@@ -80,17 +97,21 @@ export function Navbar() {
 
         {/* Desktop Auth Section */}
         <div className="hidden lg:flex items-center gap-3">
-          {mockUser ? (
+          {loading ? (
+            <div className="h-9 w-24 bg-fog border-2 border-ink animate-pulse" />
+          ) : user ? (
             <DropdownMenu.Root>
               <DropdownMenu.Trigger asChild>
                 <button
                   type="button"
                   className="flex items-center gap-2.5 px-3 py-1.5 bg-paper border-3 border-ink shadow-brutal-sm brutal-lift focus-visible:outline-3 focus-visible:outline-ink select-none cursor-pointer"
                 >
-                  <div className="w-7 h-7 rounded-full bg-sun border-2 border-ink flex items-center justify-center font-bold text-xs uppercase text-ink">
-                    {mockUser.name.charAt(0)}
+                  <div className="w-7 h-7 bg-sun border-2 border-ink flex items-center justify-center font-bold text-xs uppercase text-ink">
+                    {initial}
                   </div>
-                  <span className="font-bold text-sm text-ink">{mockUser.name.split(' ')[0]}</span>
+                  <span className="font-bold text-sm text-ink max-w-[120px] truncate">
+                    {displayName}
+                  </span>
                   <ChevronDown className="w-4 h-4 text-ink stroke-[2.5]" />
                 </button>
               </DropdownMenu.Trigger>
@@ -103,10 +124,10 @@ export function Navbar() {
                 >
                   {/* User info block */}
                   <div className="p-3 bg-cream border-2 border-ink mb-2">
-                    <p className="font-bold text-sm text-ink">{mockUser.name}</p>
-                    <p className="font-mono text-xs text-graphite truncate">{mockUser.email}</p>
-                    <span className="inline-block mt-1 font-mono text-[10px] text-graphite uppercase tracking-wider">
-                      Demo Seller Mode
+                    <p className="font-bold text-sm text-ink truncate">{displayName}</p>
+                    <p className="font-mono text-xs text-graphite truncate">{user.email}</p>
+                    <span className="inline-block mt-1 font-mono text-[10px] text-ink font-bold uppercase tracking-wider bg-sun px-1.5 py-0.5 border border-ink">
+                      Verified Creator
                     </span>
                   </div>
 
@@ -116,7 +137,7 @@ export function Navbar() {
                       className="flex items-center gap-2.5 px-3 py-2.5 text-sm font-bold text-ink cursor-pointer hover:bg-sun transition-colors outline-none"
                     >
                       <PlusCircle className="w-4 h-4 stroke-[2.5]" />
-                      <span>Add Product</span>
+                      <span>Add Kit</span>
                     </Link>
                   </DropdownMenu.Item>
 
@@ -126,39 +147,33 @@ export function Navbar() {
                       className="flex items-center gap-2.5 px-3 py-2.5 text-sm font-bold text-ink cursor-pointer hover:bg-sun transition-colors outline-none"
                     >
                       <LayoutDashboard className="w-4 h-4 stroke-[2.5]" />
-                      <span>Manage Products</span>
+                      <span>Manage Kits</span>
                     </Link>
                   </DropdownMenu.Item>
 
                   <DropdownMenu.Separator className="h-0.5 bg-ink my-1" />
 
                   <DropdownMenu.Item
-                    onSelect={() => setMockUser(null)}
+                    onSelect={handleSignOut}
                     className="flex items-center gap-2.5 px-3 py-2.5 text-sm font-bold text-danger cursor-pointer hover:bg-danger/10 transition-colors outline-none"
                   >
                     <LogOut className="w-4 h-4 stroke-[2.5]" />
-                    <span>Log Out (Demo)</span>
+                    <span>Log Out</span>
                   </DropdownMenu.Item>
                 </DropdownMenu.Content>
               </DropdownMenu.Portal>
             </DropdownMenu.Root>
           ) : (
-            <div className="flex items-center gap-3">
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() =>
-                  setMockUser({ name: 'Alex Maker', email: 'alex@kitbash.dev' })
-                }
-                title="Click to toggle Demo Mock Seller account"
-              >
-                Demo Login
+            <div className="flex items-center gap-2.5">
+              <Button asChild variant="outline" size="sm">
+                <Link href="/login">
+                  <UserCircle className="w-4 h-4 stroke-[2.5]" />
+                  <span>Sign In</span>
+                </Link>
               </Button>
-              <Link href="/items">
-                <Button variant="primary" size="sm">
-                  Browse Kits
-                </Button>
-              </Link>
+              <Button asChild variant="primary" size="sm">
+                <Link href="/register">Register</Link>
+              </Button>
             </div>
           )}
         </div>
@@ -235,32 +250,42 @@ export function Navbar() {
           </div>
 
           <div className="pt-8 border-t-3 border-ink flex flex-col gap-3">
-            {mockUser ? (
+            {user ? (
               <div className="flex items-center justify-between bg-paper border-3 border-ink p-3 shadow-brutal-sm">
-                <div>
-                  <p className="font-bold text-sm text-ink">{mockUser.name}</p>
-                  <p className="font-mono text-xs text-graphite">{mockUser.email}</p>
+                <div className="min-w-0 pr-2">
+                  <p className="font-bold text-sm text-ink truncate">{displayName}</p>
+                  <p className="font-mono text-xs text-graphite truncate">{user.email}</p>
                 </div>
                 <Button
                   variant="danger"
                   size="sm"
-                  onClick={() => setMockUser(null)}
+                  onClick={async () => {
+                    await handleSignOut();
+                    setMobileMenuOpen(false);
+                  }}
                 >
                   Log Out
                 </Button>
               </div>
             ) : (
-              <Button
-                variant="dark"
-                size="md"
-                className="w-full"
-                onClick={() => {
-                  setMockUser({ name: 'Alex Maker', email: 'alex@kitbash.dev' });
-                  setMobileMenuOpen(false);
-                }}
-              >
-                Sign In (Demo Mode)
-              </Button>
+              <div className="grid grid-cols-2 gap-3">
+                <Button
+                  asChild
+                  variant="outline"
+                  size="md"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  <Link href="/login">Sign In</Link>
+                </Button>
+                <Button
+                  asChild
+                  variant="dark"
+                  size="md"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  <Link href="/register">Register</Link>
+                </Button>
+              </div>
             )}
           </div>
         </div>
