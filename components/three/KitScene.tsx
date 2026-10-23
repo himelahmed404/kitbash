@@ -62,8 +62,8 @@ export function KitScene() {
 
       const trigger = ScrollTrigger.create({
         trigger: element,
-        start: 'top center',
-        end: 'bottom center',
+        start: i === 0 ? 'top top' : 'top center',
+        end: i === 0 ? 'bottom top' : 'bottom center',
         onUpdate: (self) => {
           scrollRef.current = { act: i, t: self.progress };
         },

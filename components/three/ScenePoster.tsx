@@ -10,15 +10,16 @@ import * as React from 'react';
 export function ScenePoster() {
   return (
     <div
-      className="w-full h-full flex items-center justify-center pointer-events-none select-none opacity-90"
+      className="w-full h-full max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-12 items-center pointer-events-none select-none opacity-95"
       aria-hidden="true"
     >
-      <svg
-        viewBox="0 0 600 600"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-        className="w-full max-w-[540px] h-auto drop-shadow-sm"
-      >
+      <div className="md:col-start-8 md:col-span-5 flex items-center justify-center py-6">
+        <svg
+          viewBox="0 0 600 600"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          className="w-full max-w-[340px] sm:max-w-[400px] lg:max-w-[460px] h-auto drop-shadow-sm"
+        >
         {/* Background ambient confetti bits */}
         <rect x="80" y="110" width="14" height="14" fill="#FFD600" stroke="#111" strokeWidth="2.5" transform="rotate(15 80 110)" />
         <rect x="510" y="140" width="16" height="16" fill="#5EEAD4" stroke="#111" strokeWidth="2.5" transform="rotate(-25 510 140)" />
@@ -102,6 +103,7 @@ export function ScenePoster() {
           <line x1="55" y1="0" x2="55" y2="50" stroke="#111" strokeWidth="3" />
         </g>
       </svg>
+      </div>
     </div>
   );
 }

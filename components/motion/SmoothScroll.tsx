@@ -3,7 +3,7 @@
 import * as React from 'react';
 import { ReactLenis, type LenisRef } from 'lenis/react';
 import { usePathname } from 'next/navigation';
-import { ScrollTrigger } from '@/lib/gsap';
+import { gsap, ScrollTrigger } from '@/lib/gsap';
 import { useReducedMotion } from '@/hooks/useReducedMotion';
 
 interface SmoothScrollProps {
@@ -27,8 +27,17 @@ export function SmoothScroll({ children }: SmoothScrollProps) {
 
     lenis.on('scroll', handleScroll);
 
+    // Frame-lock Lenis RAF with GSAP ticker
+    const updateLenis = (time: number) => {
+      lenis.raf(time * 1000);
+    };
+
+    gsap.ticker.add(updateLenis);
+    gsap.ticker.lagSmoothing(0);
+
     return () => {
       lenis.off('scroll', handleScroll);
+      gsap.ticker.remove(updateLenis);
     };
   }, [reduced]);
 
@@ -58,12 +67,15 @@ export function SmoothScroll({ children }: SmoothScrollProps) {
     <ReactLenis
       root
       ref={ref}
+      autoRaf={false}
       options={{
-        autoRaf: true,
+        autoRaf: false,
+        smoothWheel: true,
+        syncTouch: true,
         lerp: 0.1,
         wheelMultiplier: 1,
         touchMultiplier: 1.5,
-        syncTouch: false,
+        autoToggle: false,
       }}
     >
       {children}

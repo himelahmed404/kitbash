@@ -89,22 +89,30 @@ const STEPS: StepData[] = [
 
 export function HowItWorksSection() {
   const [activeStep, setActiveStep] = React.useState(0);
-  const containerRef = React.useRef<HTMLDivElement>(null);
+  const sectionRef = React.useRef<HTMLElement>(null);
+  const pinTargetRef = React.useRef<HTMLDivElement>(null);
+  const triggerRef = React.useRef<ScrollTrigger | null>(null);
 
   React.useEffect(() => {
-    const el = containerRef.current;
-    if (!el) return;
+    const section = sectionRef.current;
+    const pinTarget = pinTargetRef.current;
+    if (!section || !pinTarget) return;
 
-    // Desktop scrolltrigger for step transitions
+    if (window.innerWidth < 768) return;
+
+    // GSAP ScrollTrigger native pinning guarantees rock-solid scroll synchronization
     const trigger = ScrollTrigger.create({
-      trigger: el,
+      trigger: section,
+      pin: pinTarget,
       start: 'top top',
-      end: 'bottom bottom',
+      end: '+=200%',
+      scrub: 0.5,
+      anticipatePin: 1,
       onUpdate: (self) => {
         const progress = self.progress;
-        if (progress < 0.35) {
+        if (progress < 0.33) {
           setActiveStep(0);
-        } else if (progress < 0.68) {
+        } else if (progress < 0.66) {
           setActiveStep(1);
         } else {
           setActiveStep(2);
@@ -112,19 +120,39 @@ export function HowItWorksSection() {
       },
     });
 
+    triggerRef.current = trigger;
+
     return () => {
       trigger.kill();
+      triggerRef.current = null;
     };
   }, []);
 
+  const handleStepClick = (idx: number) => {
+    setActiveStep(idx);
+    if (triggerRef.current) {
+      const start = triggerRef.current.start;
+      const end = triggerRef.current.end;
+      const targetScroll = start + ((idx + 0.1) / 3) * (end - start);
+      window.scrollTo({ top: targetScroll, behavior: 'smooth' });
+    }
+  };
+
   return (
-    <section id="how-it-works" className="relative z-10 bg-paper border-b-3 border-ink">
-      {/* Desktop Pinned 300vh Container (hidden on mobile/tablet) */}
-      <div ref={containerRef} className="hidden lg:block relative h-[260vh]">
-        <div className="sticky top-0 h-screen flex flex-col justify-center max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <section
+      id="how-it-works"
+      ref={sectionRef}
+      className="relative z-10 bg-paper border-b-3 border-ink"
+    >
+      {/* Desktop/Tablet Pinned Workflow (>= 768px) */}
+      <div className="hidden md:block">
+        <div
+          ref={pinTargetRef}
+          className="h-screen w-full flex flex-col justify-center max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 py-8"
+        >
           <div className="grid grid-cols-12 gap-8 items-center">
             {/* Left Column: Pinned Step Information (7 Cols) */}
-            <div className="col-span-7 flex flex-col gap-6">
+            <div className="col-span-7 flex flex-col gap-5">
               <SectionHeader
                 eyebrow="WORKFLOW"
                 title="Buy → Remix → Ship"
@@ -132,20 +160,21 @@ export function HowItWorksSection() {
               />
 
               {/* Step Progress Rail with 3 Brutalist Square Indicators */}
-              <div className="flex items-center gap-3 py-2">
+              <div className="flex items-center gap-3 py-1">
                 {STEPS.map((step, idx) => {
                   const isActive = activeStep === idx;
                   const isDone = activeStep > idx;
                   return (
                     <button
                       key={step.number}
-                      onClick={() => setActiveStep(idx)}
-                      className={`flex items-center gap-2 px-3 py-1.5 border-3 border-ink font-mono font-bold text-xs transition-all ${
+                      type="button"
+                      onClick={() => handleStepClick(idx)}
+                      className={`flex items-center gap-2 px-3 py-1.5 border-3 border-ink font-mono font-bold text-xs transition-all cursor-pointer ${
                         isActive
                           ? 'bg-sun text-ink shadow-brutal-sm -translate-y-0.5'
                           : isDone
                           ? 'bg-cream text-ink'
-                          : 'bg-fog text-smoke'
+                          : 'bg-fog text-smoke hover:text-ink'
                       }`}
                     >
                       <span>{step.number}</span>
@@ -157,37 +186,37 @@ export function HowItWorksSection() {
               </div>
 
               {/* Active Step Card */}
-              <div className="relative min-h-[300px]">
+              <div className="relative min-h-[290px]">
                 {STEPS.map((step, idx) => {
                   const isCurrent = activeStep === idx;
                   return (
                     <div
                       key={step.number}
-                      className={`transition-all duration-500 ease-out flex flex-col gap-6 ${
+                      className={`transition-all duration-400 ease-out flex flex-col gap-4 ${
                         isCurrent
                           ? 'opacity-100 translate-y-0 relative pointer-events-auto'
-                          : 'opacity-0 translate-y-6 absolute inset-0 pointer-events-none'
+                          : 'opacity-0 translate-y-4 absolute inset-0 pointer-events-none'
                       }`}
                     >
-                      <div className="p-8 border-3 border-ink bg-cream shadow-brutal flex flex-col gap-4">
+                      <div className="p-6 sm:p-7 border-3 border-ink bg-cream shadow-brutal flex flex-col gap-3.5">
                         <div className="flex items-center justify-between">
-                          <span className="font-mono font-black text-3xl text-ink">
+                          <span className="font-mono font-black text-2xl sm:text-3xl text-ink">
                             {step.number}
                           </span>
-                          <span className="font-mono font-bold text-xs uppercase px-2.5 py-1 border-2 border-ink bg-paper">
+                          <span className="font-mono font-bold text-xs uppercase px-2 py-0.5 border-2 border-ink bg-paper">
                             ACT 0{idx + 1}
                           </span>
                         </div>
 
-                        <h3 className="text-2xl font-bold uppercase tracking-tight text-ink">
+                        <h3 className="text-xl sm:text-2xl font-bold uppercase tracking-tight text-ink">
                           {step.title}
                         </h3>
 
-                        <p className="text-base text-graphite font-medium leading-relaxed">
+                        <p className="text-sm sm:text-base text-graphite font-medium leading-relaxed">
                           {step.body}
                         </p>
 
-                        <div className="pt-3">
+                        <div className="pt-2">
                           {step.snippet}
                         </div>
                       </div>
@@ -198,19 +227,19 @@ export function HowItWorksSection() {
             </div>
 
             {/* Right Column: Clear viewport space for the 3D Kit Assembly (5 Cols) */}
-            <div className="col-span-5 h-[500px] pointer-events-none" />
+            <div className="col-span-5 h-[420px] lg:h-[480px] pointer-events-none" />
           </div>
         </div>
       </div>
 
-      {/* Mobile Stacked Layout (< 1024px) */}
-      <div className="block lg:hidden py-16">
+      {/* Mobile Stacked Layout (< 768px) */}
+      <div className="block md:hidden py-14">
         <Container>
           <SectionHeader
             eyebrow="WORKFLOW"
             title="Buy → Remix → Ship"
             kicker="A modular pipeline designed for solo builders and agile product teams."
-            className="mb-10"
+            className="mb-8"
           />
 
           <div className="flex flex-col gap-6">

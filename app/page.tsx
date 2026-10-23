@@ -8,7 +8,7 @@ import { SceneCanvas } from '@/components/three/SceneCanvas';
 
 export default function HomePage() {
   return (
-    <div className="relative flex flex-col w-full overflow-x-hidden">
+    <div className="relative flex flex-col w-full">
       {/* Fixed 3D Kit Assembly Scene with SVG Poster Fallback */}
       <SceneCanvas />
 
