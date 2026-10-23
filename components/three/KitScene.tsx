@@ -33,6 +33,7 @@ export function KitScene() {
 
   const scrollRef = React.useRef({ act: 0, t: 0 });
   const isMobileRef = React.useRef(false);
+  const mouseRef = React.useRef({ x: 0, y: 0 });
 
   const tmpVec = React.useRef({
     p: new THREE.Vector3(),
@@ -45,6 +46,12 @@ export function KitScene() {
     };
     checkMobile();
     window.addEventListener('resize', checkMobile);
+
+    const handlePointerMove = (e: PointerEvent) => {
+      mouseRef.current.x = (e.clientX / window.innerWidth) * 2 - 1;
+      mouseRef.current.y = -(e.clientY / window.innerHeight) * 2 + 1;
+    };
+    window.addEventListener('pointermove', handlePointerMove, { passive: true });
 
     const triggers: ScrollTrigger[] = [];
 
@@ -70,6 +77,7 @@ export function KitScene() {
 
     return () => {
       window.removeEventListener('resize', checkMobile);
+      window.removeEventListener('pointermove', handlePointerMove);
       triggers.forEach((t) => t.kill());
     };
   }, []);
@@ -94,8 +102,10 @@ export function KitScene() {
 
       // Mouse parallax only in Act 0 (Hero)
       if (act === 0) {
-        tmpVec.current.p.x += state.pointer.x * 0.35;
-        tmpVec.current.p.y += state.pointer.y * 0.25;
+        const mx = mouseRef.current.x || state.pointer.x;
+        const my = mouseRef.current.y || state.pointer.y;
+        tmpVec.current.p.x += mx * 0.35;
+        tmpVec.current.p.y += my * 0.25;
       }
 
       // Smooth lag / damping

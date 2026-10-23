@@ -3,7 +3,7 @@
 import * as React from 'react';
 import { ReactLenis, type LenisRef } from 'lenis/react';
 import { usePathname } from 'next/navigation';
-import { gsap, ScrollTrigger } from '@/lib/gsap';
+import { ScrollTrigger } from '@/lib/gsap';
 import { useReducedMotion } from '@/hooks/useReducedMotion';
 
 interface SmoothScrollProps {
@@ -21,19 +21,14 @@ export function SmoothScroll({ children }: SmoothScrollProps) {
     if (!lenis) return;
 
     // Connect Lenis scroll to ScrollTrigger
-    lenis.on('scroll', ScrollTrigger.update);
-
-    // Drive Lenis from GSAP ticker
-    const tick = (time: number) => {
-      lenis.raf(time * 1000);
+    const handleScroll = () => {
+      ScrollTrigger.update();
     };
 
-    gsap.ticker.add(tick);
-    gsap.ticker.lagSmoothing(0);
+    lenis.on('scroll', handleScroll);
 
     return () => {
-      gsap.ticker.remove(tick);
-      lenis.off('scroll', ScrollTrigger.update);
+      lenis.off('scroll', handleScroll);
     };
   }, [reduced]);
 
@@ -42,7 +37,7 @@ export function SmoothScroll({ children }: SmoothScrollProps) {
     ref.current?.lenis?.scrollTo(0, { immediate: true });
     const timer = setTimeout(() => {
       ScrollTrigger.refresh();
-    }, 50);
+    }, 60);
     return () => clearTimeout(timer);
   }, [pathname]);
 
@@ -64,10 +59,11 @@ export function SmoothScroll({ children }: SmoothScrollProps) {
       root
       ref={ref}
       options={{
-        autoRaf: false,
+        autoRaf: true,
         lerp: 0.1,
         wheelMultiplier: 1,
-        smoothWheel: true,
+        touchMultiplier: 1.5,
+        syncTouch: false,
       }}
     >
       {children}

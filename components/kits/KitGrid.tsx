@@ -4,6 +4,7 @@ import { cn } from '@/lib/utils';
 import { KitCard } from './KitCard';
 import { EmptyState } from '@/components/ui/EmptyState';
 import { Button } from '@/components/ui/Button';
+import { Reveal } from '@/components/motion/Reveal';
 
 interface KitGridProps {
   kits: Kit[];
@@ -52,8 +53,15 @@ export function KitGrid({ kits, loading = false, onReset, className }: KitGridPr
         className
       )}
     >
-      {kits.map((kit) => (
-        <KitCard key={kit.id} kit={kit} />
+      {kits.map((kit, index) => (
+        <Reveal
+          key={kit.id}
+          delay={Math.min((index % 6) * 0.05, 0.25)}
+          y={20}
+          className="h-full"
+        >
+          <KitCard kit={kit} />
+        </Reveal>
       ))}
     </div>
   );

@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 import { Suspense } from 'react';
 import { Container } from '@/components/layout/Container';
 import { LoginForm } from '@/components/auth/LoginForm';
+import { Reveal } from '@/components/motion/Reveal';
 
 export const metadata: Metadata = {
   title: 'Sign In — Creator Access',
@@ -22,7 +23,9 @@ export default function LoginPage() {
             </div>
           }
         >
-          <LoginForm />
+          <Reveal y={24} duration={0.5}>
+            <LoginForm />
+          </Reveal>
         </Suspense>
       </Container>
     </div>

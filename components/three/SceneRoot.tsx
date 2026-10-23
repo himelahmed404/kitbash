@@ -20,7 +20,8 @@ export default function SceneRoot() {
         fov: 30,
         position: [0, 0, 12],
       }}
-      className="w-full h-full"
+      style={{ pointerEvents: 'none' }}
+      className="w-full h-full pointer-events-none"
     >
       <PerformanceMonitor onDecline={() => setDpr(1)} />
       <AdaptiveDpr pixelated />

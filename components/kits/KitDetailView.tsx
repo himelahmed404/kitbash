@@ -17,6 +17,7 @@ import { SpecTable } from '@/components/kits/SpecTable';
 import { RelatedKits } from '@/components/kits/RelatedKits';
 import { formatPrice, hashToBrandTone } from '@/lib/utils';
 import { BuyKitButton } from '@/app/items/[id]/BuyKitButton';
+import { Reveal } from '@/components/motion/Reveal';
 
 interface KitDetailViewProps {
   initialKit?: Kit;
@@ -92,7 +93,7 @@ export function KitDetailView({ initialKit, id }: KitDetailViewProps) {
         {/* Top grid — 7/5 split on lg */}
         <div className="grid gap-8 lg:gap-12 lg:grid-cols-12">
           {/* Left — Cover */}
-          <div className="lg:col-span-7">
+          <Reveal y={20} duration={0.6} className="lg:col-span-7">
             <Card className={`overflow-hidden ${coverBgClass}`}>
               <div className="aspect-[4/3] w-full">
                 {kit.imageUrl ? (
@@ -110,10 +111,10 @@ export function KitDetailView({ initialKit, id }: KitDetailViewProps) {
                 )}
               </div>
             </Card>
-          </div>
+          </Reveal>
 
           {/* Right — Details */}
-          <div className="lg:col-span-5 lg:sticky lg:top-28 lg:self-start flex flex-col gap-5">
+          <Reveal y={20} delay={0.1} duration={0.6} className="lg:col-span-5 lg:sticky lg:top-28 lg:self-start flex flex-col gap-5">
             {/* Tags */}
             <div className="flex flex-wrap items-center gap-2">
               <Tag tone={tone}>{CATEGORY_LABELS[kit.category]}</Tag>
@@ -159,7 +160,7 @@ export function KitDetailView({ initialKit, id }: KitDetailViewProps) {
             <div className="border-t-3 border-ink pt-5 mt-2">
               <SpecTable kit={kit} />
             </div>
-          </div>
+          </Reveal>
         </div>
       </Container>
 

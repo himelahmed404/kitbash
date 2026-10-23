@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 import { Suspense } from 'react';
 import { Container } from '@/components/layout/Container';
 import { RegisterForm } from '@/components/auth/RegisterForm';
+import { Reveal } from '@/components/motion/Reveal';
 
 export const metadata: Metadata = {
   title: 'Join Kitbash — Maker Registration',
@@ -22,7 +23,9 @@ export default function RegisterPage() {
             </div>
           }
         >
-          <RegisterForm />
+          <Reveal y={24} duration={0.5}>
+            <RegisterForm />
+          </Reveal>
         </Suspense>
       </Container>
     </div>

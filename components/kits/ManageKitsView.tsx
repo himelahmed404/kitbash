@@ -20,6 +20,7 @@ import { Tag } from '@/components/ui/Tag';
 import { EmptyState } from '@/components/ui/EmptyState';
 import { ConfirmDialog } from '@/components/ui/ConfirmDialog';
 import { KitCover } from '@/components/kits/KitCover';
+import { Reveal } from '@/components/motion/Reveal';
 
 export function ManageKitsView() {
   const { user } = useAuth();
@@ -141,7 +142,7 @@ export function ManageKitsView() {
           }
         />
       ) : (
-        <>
+        <Reveal y={20} duration={0.5}>
           {/* Desktop Data Table (hidden on mobile) */}
           <div className="hidden md:block border-3 border-ink bg-paper shadow-brutal overflow-hidden">
             <table className="w-full text-left border-collapse">
@@ -390,7 +391,7 @@ export function ManageKitsView() {
               );
             })}
           </div>
-        </>
+        </Reveal>
       )}
 
       {/* Delete Confirmation Modal */}

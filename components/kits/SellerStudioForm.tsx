@@ -36,6 +36,7 @@ import {
 } from '@/components/ui/Select';
 import { ShapeBurst } from '@/components/ui/ShapeBurst';
 import { KitCard } from '@/components/kits/KitCard';
+import { Reveal } from '@/components/motion/Reveal';
 
 const DEFAULT_FORM_VALUES: KitFormData = {
   title: '',
@@ -165,7 +166,7 @@ export function SellerStudioForm() {
   return (
     <div className="grid gap-8 lg:gap-12 lg:grid-cols-12 items-start">
       {/* Left Column — Form */}
-      <div className="lg:col-span-7">
+      <Reveal y={20} duration={0.6} className="lg:col-span-7">
         <div className="bg-paper border-3 border-ink shadow-brutal p-6 sm:p-8">
           {/* Error Banner */}
           {hasErrors && (
@@ -415,10 +416,10 @@ export function SellerStudioForm() {
             </div>
           </form>
         </div>
-      </div>
+      </Reveal>
 
       {/* Right Column — Sticky Live Preview */}
-      <div className="lg:col-span-5 lg:sticky lg:top-24 lg:self-start space-y-4">
+      <Reveal y={20} delay={0.12} duration={0.6} className="lg:col-span-5 lg:sticky lg:top-24 lg:self-start space-y-4">
         {/* Preview Header Banner */}
         <div className="bg-sun border-3 border-ink shadow-brutal-sm p-4 flex items-center justify-between">
           <div className="flex items-center gap-2">
@@ -464,7 +465,7 @@ export function SellerStudioForm() {
             </div>
           </div>
         </div>
-      </div>
+      </Reveal>
     </div>
   );
 }

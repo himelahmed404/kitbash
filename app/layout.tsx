@@ -38,7 +38,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${spaceGrotesk.variable} ${jetbrainsMono.variable} h-full antialiased`}
+      className={`${spaceGrotesk.variable} ${jetbrainsMono.variable} min-h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-paper text-ink selection:bg-sun selection:text-ink">
         {/* Skip to content accessibility link */}

@@ -8,6 +8,7 @@ import type { Category } from '@/types/kit';
 import { SearchBar } from './SearchBar';
 import { KitFilters } from './KitFilters';
 import { KitGrid } from './KitGrid';
+import { Reveal } from '@/components/motion/Reveal';
 
 export function ItemsBrowser() {
   const router = useRouter();
@@ -67,25 +68,28 @@ export function ItemsBrowser() {
 
   return (
     <div className="flex flex-col gap-6">
-      {/* Search bar */}
-      <SearchBar
-        value={searchInput}
-        onChange={setSearchInput}
-      />
+      {/* Search bar & Filters */}
+      <Reveal y={16} duration={0.5}>
+        <div className="flex flex-col gap-6">
+          <SearchBar
+            value={searchInput}
+            onChange={setSearchInput}
+          />
 
-      {/* Filters */}
-      <KitFilters
-        category={category}
-        price={price}
-        sort={sort}
-        resultCount={filtered.length}
-        onCategoryChange={(cat) => updateURL({ category: cat })}
-        onPriceChange={(bucket) => updateURL({ price: bucket })}
-        onSortChange={(s) => updateURL({ sort: s })}
-        onReset={handleReset}
-      />
+          <KitFilters
+            category={category}
+            price={price}
+            sort={sort}
+            resultCount={filtered.length}
+            onCategoryChange={(cat) => updateURL({ category: cat })}
+            onPriceChange={(bucket) => updateURL({ price: bucket })}
+            onSortChange={(s) => updateURL({ sort: s })}
+            onReset={handleReset}
+          />
+        </div>
+      </Reveal>
 
-      {/* Grid */}
+      {/* Grid with staggered card reveals */}
       <KitGrid kits={filtered} onReset={handleReset} />
     </div>
   );
