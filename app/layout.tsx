@@ -4,6 +4,7 @@ import './globals.css';
 import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
 import { Toaster } from '@/components/ui/Toaster';
+import { SmoothScroll } from '@/components/motion/SmoothScroll';
 
 const spaceGrotesk = Space_Grotesk({
   variable: '--font-space-grotesk',
@@ -47,12 +48,14 @@ export default function RootLayout({
           Skip to main content
         </a>
 
-        <Navbar />
-        <main id="main-content" className="flex-1 flex flex-col">
-          {children}
-        </main>
-        <Footer />
-        <Toaster />
+        <SmoothScroll>
+          <Navbar />
+          <main id="main-content" className="flex-1 flex flex-col">
+            {children}
+          </main>
+          <Footer />
+          <Toaster />
+        </SmoothScroll>
       </body>
     </html>
   );

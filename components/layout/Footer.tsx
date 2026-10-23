@@ -20,7 +20,7 @@ export function Footer() {
   ];
 
   return (
-    <footer className="w-full mt-auto">
+    <footer id="footer" className="w-full mt-auto">
       {/* CTA Band */}
       <section className="bg-sun border-y-3 border-ink py-12 md:py-16">
         <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-6">
