@@ -1,6 +1,6 @@
 import { initializeApp, getApps, getApp, type FirebaseApp } from 'firebase/app';
 import { getAuth, type Auth, GoogleAuthProvider } from 'firebase/auth';
-import { getFirestore, type Firestore } from 'firebase/firestore';
+import { initializeFirestore, getFirestore, type Firestore } from 'firebase/firestore';
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY || 'AIzaSyD2l6FpKoCDu8JF3-7RKQ_UNXrBFk1-7qg',
@@ -19,8 +19,16 @@ export const app: FirebaseApp =
 // Initialize Auth
 export const auth: Auth = getAuth(app);
 
-// Initialize Firestore
-export const db: Firestore = getFirestore(app);
+// Initialize Firestore safely with ignoreUndefinedProperties
+function getOrCreateFirestore(): Firestore {
+  try {
+    return initializeFirestore(app, { ignoreUndefinedProperties: true });
+  } catch {
+    return getFirestore(app);
+  }
+}
+
+export const db: Firestore = getOrCreateFirestore();
 
 // Google Auth Provider setup
 export const googleProvider = new GoogleAuthProvider();

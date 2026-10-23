@@ -3,7 +3,7 @@
 import * as React from 'react';
 import { useRouter } from 'next/navigation';
 import { useForm, useWatch, Controller } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
+import { zodResolver } from '@/lib/zodResolver';
 import { toast } from 'sonner';
 import {
   AlertCircle,
@@ -61,6 +61,7 @@ export function SellerStudioForm() {
     handleSubmit,
     control,
     setValue,
+    trigger,
     reset,
     formState: { errors, submitCount },
   } = useForm<KitFormData>({
@@ -85,7 +86,8 @@ export function SellerStudioForm() {
     const nextFormats = currentFormats.includes(format)
       ? currentFormats.filter((f) => f !== format)
       : [...currentFormats, format];
-    setValue('formats', nextFormats, { shouldValidate: true, shouldDirty: true });
+    setValue('formats', nextFormats, { shouldDirty: true });
+    void trigger('formats');
   };
 
   // Construct reactive kit object for Live Preview
@@ -201,7 +203,7 @@ export function SellerStudioForm() {
             <Field
               label="Short Description"
               required
-              hint={`Between 20 and 120 characters. Shown on catalog cards (${shortDescLength}/120).`}
+              hint={`Between 10 and 120 characters. Shown on catalog cards (${shortDescLength}/120).`}
               error={errors.shortDescription?.message}
             >
               <Textarea
@@ -216,7 +218,7 @@ export function SellerStudioForm() {
             <Field
               label="Full Description"
               required
-              hint={`Between 80 and 2000 characters. Shown on kit detail page (${fullDescLength}/2000).`}
+              hint={`Minimum 20 characters. Shown on kit detail page (${fullDescLength}/2000).`}
               error={errors.description?.message}
             >
               <Textarea

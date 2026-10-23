@@ -45,34 +45,43 @@ export const kitFormSchema = z.object({
   shortDescription: z
     .string()
     .trim()
-    .min(20, { message: 'Short description must be between 20 and 120 characters' })
-    .max(120, { message: 'Short description must be between 20 and 120 characters' }),
+    .min(10, { message: 'Short description must be between 10 and 120 characters' })
+    .max(120, { message: 'Short description must be between 10 and 120 characters' }),
   description: z
     .string()
     .trim()
-    .min(80, { message: 'Full description must be at least 80 characters' })
+    .min(20, { message: 'Full description must be at least 20 characters' })
     .max(2000, { message: 'Full description must be under 2000 characters' }),
   category: z.enum(['ui-kit', 'icons', 'fonts', 'templates'], {
     message: 'Please select a valid category',
   }),
-  price: z
-    .number({ message: 'Price must be a valid number' })
-    .min(0, { message: 'Price cannot be negative' })
-    .max(499, { message: 'Price cannot exceed $499' }),
+  price: z.preprocess(
+    (val) => (typeof val === 'number' && Number.isNaN(val) ? 0 : Number(val)),
+    z
+      .number({ message: 'Price must be a valid number' })
+      .min(0, { message: 'Price cannot be negative' })
+      .max(499, { message: 'Price cannot exceed $499' })
+  ),
   formats: z
     .array(z.string())
     .min(1, { message: 'Select at least one format' }),
-  fileSizeMB: z
-    .number({ message: 'File size must be a number' })
-    .positive({ message: 'File size must be greater than 0' })
-    .max(5000, { message: 'File size cannot exceed 5000 MB' }),
+  fileSizeMB: z.preprocess(
+    (val) => (typeof val === 'number' && Number.isNaN(val) ? 1 : Number(val)),
+    z
+      .number({ message: 'File size must be a number' })
+      .positive({ message: 'File size must be greater than 0' })
+      .max(5000, { message: 'File size cannot exceed 5000 MB' })
+  ),
   license: z.enum(['Personal', 'Commercial', 'Extended'], {
     message: 'Please select a license',
   }),
   version: z
     .string()
     .trim()
-    .regex(/^v?\d+\.\d+(\.\d+)?$/, { message: 'Version must be semver (e.g. 1.0.0 or 2.1)' }),
+    .min(1, { message: 'Version is required' })
+    .regex(/^v?\d+(\.\d+)*(-[\w.]+)?$/i, {
+      message: 'Version must be semver (e.g. 1.0.0, 2.1, or 1.0.0-beta)',
+    }),
   imageUrl: z
     .string()
     .trim()

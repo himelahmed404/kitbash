@@ -152,10 +152,27 @@ export async function addKit(
   // 2. Persist to Cloud Firestore
   try {
     const docRef = doc(db, 'kits', kitId);
-    await setDoc(docRef, {
-      ...newKit,
+    const firestoreData: Record<string, unknown> = {
+      id: newKit.id,
+      title: newKit.title,
+      shortDescription: newKit.shortDescription,
+      description: newKit.description,
+      category: newKit.category,
+      price: newKit.price,
+      formats: newKit.formats,
+      fileSizeMB: newKit.fileSizeMB,
+      license: newKit.license,
+      version: newKit.version,
+      imageUrl: newKit.imageUrl || '',
+      tags: newKit.tags || [],
+      ownerId: newKit.ownerId,
+      ownerName: newKit.ownerName,
+      createdAt: newKit.createdAt,
+      official: false,
+      rating: 5.0,
       updatedAt: new Date().toISOString(),
-    });
+    };
+    await setDoc(docRef, firestoreData);
   } catch (err) {
     console.warn('Firestore write notice (saved locally):', err);
   }

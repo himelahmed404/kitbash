@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 import { useForm, useWatch } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
+import { zodResolver } from '@/lib/zodResolver';
 import { toast } from 'sonner';
 import { contactSchema, type ContactFormData } from '@/lib/validators';
 import { Field } from '@/components/ui/Field';
